@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-11-12T04:08:48.109Z</updated>
+  <updated>2023-11-12T05:06:21.227Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,19 +17,18 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title></title>
+    <title>test</title>
     <link href="http://example.com/2023/11/12/test/"/>
     <id>http://example.com/2023/11/12/test/</id>
-    <published>2023-11-12T04:08:48.109Z</published>
-    <updated>2023-11-12T04:08:48.109Z</updated>
+    <published>2023-11-12T05:04:54.000Z</published>
+    <updated>2023-11-12T05:06:21.227Z</updated>
     
-    <content type="html"><![CDATA[<hr><h2 id="title-testdate-2023-11-12-12-07-27tags"><a href="#title-testdate-2023-11-12-12-07-27tags" class="headerlink" title="title: testdate: 2023-11-12 12:07:27tags:"></a>title: test<br>date: 2023-11-12 12:07:27<br>tags:</h2><p>##This is a test!</p><p>How to push a new article?-</p>]]></content>
+    <content type="html"><![CDATA[<h2 id="THIS-IS-A-TEST"><a href="#THIS-IS-A-TEST" class="headerlink" title="THIS IS A TEST"></a>THIS IS A TEST</h2><p><strong>why there is no title</strong><br>^_^</p>]]></content>
     
     
       
       
-    <summary type="html">&lt;hr&gt;
-&lt;h2 id=&quot;title-testdate-2023-11-12-12-07-27tags&quot;&gt;&lt;a href=&quot;#title-testdate-2023-11-12-12-07-27tags&quot; class=&quot;headerlink&quot; title=&quot;title: test</summary>
+    <summary type="html">&lt;h2 id=&quot;THIS-IS-A-TEST&quot;&gt;&lt;a href=&quot;#THIS-IS-A-TEST&quot; class=&quot;headerlink&quot; title=&quot;THIS IS A TEST&quot;&gt;&lt;/a&gt;THIS IS A TEST&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;why there is n</summary>
       
     
     
