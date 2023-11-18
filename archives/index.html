@@ -430,6 +430,44 @@
             
         
         <article class="index-post">
+            <a class="abstract-title" href="/2023/11/18/XDSEC-HW-1/">
+                
+                <span class="abstract-title-text">XDSEC-HW-1</span>
+            </a>
+            <div class="abstract-content">
+                Fake_Upload（长文警告！！！长文警告！！！）
+首先随便传一个正常的图片上去，确实能传成功，点击跳转页面发现file参数GET可控，所以随便写一个值
+发现网页回显了一个坏掉的图片的icon，用Chrome的话直接f12看源码，可以找到file_get_contents(“111”)显示找不到，说明这里对file参数没做什么过滤，试试看&#x2F;etc&#x2F;passwd，我这边是没有回显的，感觉是没权限，不知道为啥writeup里可以看到
+于是乎就试试别的路径，&#x2F;var&#x2F;www&#x2F;html&#x2F;index.php或者show.php，都是可...
+            </div>
+            <!-- read more -->
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2023/11/18">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2023/11/18</span>
+                </div>
+                <!-- tags -->
+                
+                    <div class= abstract-tags >
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="web">web</a>
+    
+</div>
+
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+        
+        <article class="index-post">
             <a class="abstract-title" href="/2023/11/11/hello-world/">
                 
                 <span class="abstract-title-text">Hello World</span>
@@ -555,14 +593,21 @@ Run server1$ hexo ...
         
         
         
+        
+        
+        
+        
+        
     
+        
+        
     
     
     
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 1
+        Total : 2
         </div>
         <!-- search  -->
         
@@ -578,6 +623,12 @@ Run server1$ hexo ...
             
         
         <li class="archive-post-item">
+            <span class="archive-post-date">11/18</span>
+            <a class="archive-post-title" href="/2023/11/18/XDSEC-HW-1/">XDSEC-HW-1</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
             <span class="archive-post-date">11/11</span>
             <a class="archive-post-title" href="/2023/11/11/hello-world/">Hello World</a>
         </li>
@@ -587,6 +638,11 @@ Run server1$ hexo ...
 
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
+        
+            <span class="sidebar-tag-name" data-tags="web">
+                <span class="iconfont-archer">&#xe606;</span>
+                web
+            </span>
         
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
